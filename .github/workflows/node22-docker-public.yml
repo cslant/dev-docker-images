@@ -1,4 +1,4 @@
-name: Publish Node image to Docker Hub
+name: Publish Node 22 image to Docker Hub
 
 on:
   push:
@@ -17,7 +17,7 @@ env:
 jobs:
   push_to_registry:
     if: github.event_name != 'pull_request'
-    name: Build and push Node image
+    name: Build and push Node 22 image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -87,11 +87,11 @@ jobs:
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=raw,value=${{ steps.inc_version.outputs.new_version }}
 
-      - name: Build and push Node image
+      - name: Build and push Node 22 image
         id: build-and-push
         uses: docker/build-push-action@v6
         with:
-          context: node
+          context: node22
           push: true
           tags: |
             ${{ env.DOCKERHUB_ID }}/${{ env.IMAGE_NAME }}:latest
