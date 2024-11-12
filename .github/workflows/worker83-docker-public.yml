@@ -29,6 +29,7 @@ jobs:
         uses: ludeeus/action-shellcheck@master
         with:
           check_together: 'yes'
+          ignore_paths: ''
 
   push_to_registry:
     if: github.event_name != 'pull_request'
