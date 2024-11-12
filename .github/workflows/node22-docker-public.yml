@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 env:
-  IMAGE_NAME: blog-node
+  IMAGE_NAME: dev-node22
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
   DOCKERHUB_ID: ${{ secrets.DOCKERHUB_ID }}
@@ -55,8 +55,8 @@ jobs:
         id: get_version
         run: |
           git fetch --tags
-          # get the latest tag with regex pattern have vnode prefix
-          latest_tag=$(git tag -l | grep -E '^vnode' | sort -V | tail -n 1)
+          # get the latest tag with regex pattern have vnode22 prefix
+          latest_tag=$(git tag -l | grep -E '^vnode22' | sort -V | tail -n 1)
           echo "Latest tag: $latest_tag"
           echo "version=$latest_tag" >> $GITHUB_OUTPUT
 

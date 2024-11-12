@@ -15,7 +15,7 @@ jobs:
 
       - name: Create folder for SOURCE_CODE_PATH
         run: |
-          mkdir -p ../src
+          mkdir -p src
 
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@master
