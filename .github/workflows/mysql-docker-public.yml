@@ -1,4 +1,4 @@
-name: Publish Postgres image to Docker Hub
+name: Publish MySql image to Docker Hub
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 env:
-  IMAGE_NAME: dev-postgres
+  IMAGE_NAME: dev-mysql
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
   DOCKERHUB_ID: ${{ secrets.DOCKERHUB_ID }}
@@ -17,7 +17,7 @@ env:
 jobs:
   push_to_registry:
     if: github.event_name != 'pull_request'
-    name: Build and push postgres image
+    name: Build and push mysql image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -37,8 +37,8 @@ jobs:
         id: get_version
         run: |
           git fetch --tags
-          # get the latest tag with regex pattern have vpostgres prefix
-          latest_tag=$(git tag -l | grep -E '^vpostgres' | sort -V | tail -n 1)
+          # get the latest tag with regex pattern have vmysql prefix
+          latest_tag=$(git tag -l | grep -E '^vmysql' | sort -V | tail -n 1)
           echo "Latest tag: $latest_tag"
           echo "version=$latest_tag" >> $GITHUB_OUTPUT
 
@@ -87,11 +87,11 @@ jobs:
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=raw,value=${{ steps.inc_version.outputs.new_version }}
 
-      - name: Build and push postgres image
+      - name: Build and push mysql image
         id: build-and-push
         uses: docker/build-push-action@v6
         with:
-          context: postgres
+          context: mysql
           push: true
           tags: |
             ${{ env.DOCKERHUB_ID }}/${{ env.IMAGE_NAME }}:latest
