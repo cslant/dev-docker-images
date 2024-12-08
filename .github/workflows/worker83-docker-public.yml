@@ -1,4 +1,4 @@
-name: Publish Worker83 image to Docker Hub
+name: Publish Worker 8.3 image to Docker Hub
 
 on:
   push:

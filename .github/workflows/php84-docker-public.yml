@@ -1,4 +1,4 @@
-name: Publish PHP84 image to Docker Hub
+name: Publish PHP 8.4 image to Docker Hub
 
 on:
   push:
