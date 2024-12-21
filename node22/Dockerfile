@@ -1,4 +1,4 @@
-FROM node:22.0.0-alpine
+FROM node:22.12.0-alpine
 LABEL maintainer="Tan Nguyen <tannp@cslant.com>"
 LABEL authors="cslant"
 LABEL description="Node.js image for CSlant development"
@@ -10,7 +10,9 @@ ARG GROUP_ID=1000
 ENV USER_ID=$USER_ID
 ENV GROUP_ID=$GROUP_ID
 
-RUN apk add --no-cache git
+RUN apk add --no-cache \
+    git \
+    xdg-utils
 
 RUN deluser node
 
@@ -18,9 +20,13 @@ RUN deluser node
 RUN addgroup -g ${USER_ID} csdev; \
     adduser -D -u ${USER_ID} -G csdev csdev
 
+## Enable Yarn 4
+RUN corepack enable
+
 USER csdev
 
 RUN echo Y | yarn -v
+RUN corepack prepare yarn@4.5.0 --activate
 
 WORKDIR /var/dev
 
