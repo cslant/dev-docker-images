@@ -26,7 +26,7 @@ RUN corepack enable
 USER csdev
 
 RUN echo Y | yarn -v
-RUN corepack prepare yarn@4.5.0 --activate
+RUN corepack prepare yarn@4.8.1 --activate
 
 WORKDIR /var/dev
 
