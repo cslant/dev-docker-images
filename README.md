@@ -18,6 +18,7 @@ In this docker repository, we have built the following images:
 - [cslant/dev-node22](https://hub.docker.com/r/cslant/dev-node22)
 - [cslant/dev-nginx](https://hub.docker.com/r/cslant/dev-nginx)
 - [cslant/dev-postgres](https://hub.docker.com/r/cslant/dev-postgres)
+- [cslant/dev-mailhog](https://hub.docker.com/r/cslant/dev-mailhog)
 
 ## Prerequisites
 
