@@ -1,4 +1,4 @@
-name: Publish MySql image to Docker Hub
+name: Publish Mailhog image to Docker Hub
 
 on:
   push:
