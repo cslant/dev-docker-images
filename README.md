@@ -10,10 +10,11 @@ We can use this runner to update all sources for development.
 
 In this docker repository, we have built the following images:
 
-- [cslant/dev-php84](https://hub.docker.com/r/cslant/dev-php84)
-- [cslant/dev-worker84](https://hub.docker.com/r/cslant/dev-worker84)
+- [cslant/dev-php74](https://hub.docker.com/r/cslant/dev-php74)
 - [cslant/dev-php83](https://hub.docker.com/r/cslant/dev-php83)
 - [cslant/dev-worker83](https://hub.docker.com/r/cslant/dev-worker83)
+- [cslant/dev-php84](https://hub.docker.com/r/cslant/dev-php84)
+- [cslant/dev-worker84](https://hub.docker.com/r/cslant/dev-worker84)
 - [cslant/dev-mysql](https://hub.docker.com/r/cslant/dev-mysql)
 - [cslant/dev-node22](https://hub.docker.com/r/cslant/dev-node22)
 - [cslant/dev-nginx](https://hub.docker.com/r/cslant/dev-nginx)
