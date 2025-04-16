@@ -28,8 +28,7 @@ USER csdev
 RUN echo Y | yarn -v
 RUN corepack prepare yarn@4.8.1 --activate
 
-RUN yarn global add \
-    sass
+RUN yarn dlx -q sass --version
 
 WORKDIR /var/dev
 
