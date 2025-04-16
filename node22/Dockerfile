@@ -28,7 +28,7 @@ USER csdev
 RUN echo Y | yarn -v
 RUN corepack prepare yarn@4.8.1 --activate
 
-RUN yarn add -D sass
+RUN corepack prepare sass@1.86.3 --activate
 
 WORKDIR /var/dev
 
