@@ -2,7 +2,7 @@ FROM mysql:5.7
 
 LABEL maintainer="Tan Nguyen <tannp@cslant.com>"
 LABEL authors="cslant"
-LABEL description="MySQL image for CSlant development"
+LABEL description="MySQL 5.7 image for CSlant development"
 
 COPY my.cnf /etc/mysql/conf.d/my.cnf
 

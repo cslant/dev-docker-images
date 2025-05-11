@@ -1,7 +1,7 @@
 FROM node:22.12.0-alpine
 LABEL maintainer="Tan Nguyen <tannp@cslant.com>"
 LABEL authors="cslant"
-LABEL description="Node.js image for CSlant development"
+LABEL description="Node.js 22 image for CSlant development"
 
 ARG USER_ID=1000
 ARG GROUP_ID=1000

@@ -2,7 +2,7 @@ FROM mysql:8.0.35
 
 LABEL maintainer="Tan Nguyen <tannp@cslant.com>"
 LABEL authors="cslant"
-LABEL description="MySQL image for CSlant development"
+LABEL description="MySQL 8 image for CSlant development"
 
 #####################################
 # Set Timezone

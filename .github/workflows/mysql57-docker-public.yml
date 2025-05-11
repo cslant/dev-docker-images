@@ -1,4 +1,4 @@
-name: Publish MySql image to Docker Hub
+name: Publish MySql 5.7 image to Docker Hub
 
 on:
   push:
