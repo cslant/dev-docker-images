@@ -32,7 +32,12 @@ WORKDIR /var/dev
 
 ## Install Ext
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-RUN install-php-extensions soap pcntl bcmath gd exif sockets zip xdebug redis intl pdo_pgsql pgsql pdo_mysql mysqli
+RUN install-php-extensions soap pcntl bcmath gd exif sockets zip xdebug redis intl pdo_pgsql pgsql pdo_mysql mysqli imagick curl fileinfo xml mbstring sodium bcmath
+
+# Install WP-CLI
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp
 
 USER csdev
 
