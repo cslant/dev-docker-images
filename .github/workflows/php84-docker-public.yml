@@ -1,9 +1,11 @@
-name: Publish PHP 8.4 image to Docker Hub
+name: Build and Push PHP 8.4 Image to Docker Hub
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'php84/**'
 
 permissions:
   contents: write
@@ -15,13 +17,28 @@ env:
   DOCKERHUB_ID: ${{ secrets.DOCKERHUB_ID }}
 
 jobs:
-  push_to_registry:
+  build_and_push:
     if: github.event_name != 'pull_request'
-    name: Build and push PHP84 image
+    name: Build and push PHP 8.4 image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for changes in php84 directory
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            php84:
+              - 'php84/**'
+              - '.github/workflows/php84-build.yml'
+
+      - name: Exit if no changes
+        if: steps.changes.outputs.php84 != 'true' && github.event_name != 'workflow_dispatch'
+        run: exit 0
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -62,7 +79,7 @@ jobs:
             patch=0
             minor=$((minor+1))
           fi
-          if [ "$minor" -ge 10]; then
+          if [ "$minor" -ge 10 ]; then
             minor=0
             major=$((major+1))
           fi
