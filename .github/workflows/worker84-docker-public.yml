@@ -1,9 +1,12 @@
-name: Publish Worker 8.4 image to Docker Hub
+name: Publish Worker84 image to Docker Hub
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'worker84/**'
+      - '.github/workflows/worker84-docker-public.yml'
 
 permissions:
   contents: write
@@ -15,13 +18,29 @@ env:
   DOCKERHUB_ID: ${{ secrets.DOCKERHUB_ID }}
 
 jobs:
-  push_to_registry:
+  build_and_push:
     if: github.event_name != 'pull_request'
     name: Build and push Worker84 image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for changes in worker84 directory
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            worker84:
+              - 'worker84/**'
+
+      - name: Exit if no changes
+        if: steps.changes.outputs.worker84 != 'true' # use the output from paths-filter
+        run: |
+          echo "No changes in worker84 directory, skipping build"
+          exit 0
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -62,7 +81,7 @@ jobs:
             patch=0
             minor=$((minor+1))
           fi
-          if [ "$minor" -ge 10]; then
+          if [ "$minor" -ge 10 ]; then
             minor=0
             major=$((major+1))
           fi

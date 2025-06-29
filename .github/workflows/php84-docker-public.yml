@@ -37,7 +37,7 @@ jobs:
               - 'php84/**'
 
       - name: Exit if no changes
-        if: steps.changes.outputs.php84 != 'true' && !contains(github.event.head_commit.message, '[php84]')
+        if: steps.changes.outputs.php84 != 'true'
         run: |
           echo "No changes in php84 directory and no [php84] in commit message, skipping build"
           exit 0

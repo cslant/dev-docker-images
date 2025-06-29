@@ -36,7 +36,7 @@ jobs:
               - 'php74/**'
 
       - name: Exit if no changes
-        if: steps.changes.outputs.php74 != 'true'
+        if: steps.changes.outputs.php74 != 'true' # use the output from paths-filter
         run: |
           echo "No changes in php74 directory, skipping build"
           exit 0

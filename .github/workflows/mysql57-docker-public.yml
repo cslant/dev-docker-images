@@ -36,7 +36,7 @@ jobs:
               - 'mysql57/**'
 
       - name: Exit if no changes
-        if: steps.changes.outputs.mysql57 != 'true'
+        if: steps.changes.outputs.mysql57 != 'true' # use the output from paths-filter
         run: |
           echo "No changes in mysql57 directory, skipping build"
           exit 0

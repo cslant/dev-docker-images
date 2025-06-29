@@ -36,7 +36,7 @@ jobs:
               - 'php83/**'
 
       - name: Exit if no changes
-        if: steps.changes.outputs.php83 != 'true'
+        if: steps.changes.outputs.php83 != 'true' # use the output from paths-filter
         run: |
           echo "No changes in php83 directory, skipping build"
           exit 0

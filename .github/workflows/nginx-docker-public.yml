@@ -36,7 +36,7 @@ jobs:
               - 'nginx/**'
 
       - name: Exit if no changes
-        if: steps.changes.outputs.nginx != 'true'
+        if: steps.changes.outputs.nginx != 'true' # use the output from paths-filter
         run: |
           echo "No changes in nginx directory, skipping build"
           exit 0

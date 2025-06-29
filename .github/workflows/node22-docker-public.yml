@@ -36,7 +36,7 @@ jobs:
               - 'node22/**'
 
       - name: Exit if no changes
-        if: steps.changes.outputs.node22 != 'true'
+        if: steps.changes.outputs.node22 != 'true' # use the output from paths-filter
         run: |
           echo "No changes in node22 directory, skipping build"
           exit 0
