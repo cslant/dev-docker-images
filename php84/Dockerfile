@@ -56,8 +56,4 @@ USER csdev
 # Set WP-CLI configuration
 ENV WP_CLI_CACHE_DIR=/home/csdev/.wp-cli/cache
 
-# Install bash completion for WP-CLI (optional, can be done later if needed)
-# RUN curl -s https://raw.githubusercontent.com/wp-cli/wp-cli/main/utils/wp-completion.bash > ~/.wp-completion.bash \
-#     && echo "source ~/.wp-completion.bash" >> ~/.bashrc
-
 CMD ["php-fpm"]
