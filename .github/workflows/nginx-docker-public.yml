@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'nginx/**'
 
 permissions:
   contents: write
@@ -15,13 +17,29 @@ env:
   DOCKERHUB_ID: ${{ secrets.DOCKERHUB_ID }}
 
 jobs:
-  push_to_registry:
+  build_and_push:
     if: github.event_name != 'pull_request'
     name: Build and push Nginx image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for changes in nginx directory
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            nginx:
+              - 'nginx/**'
+
+      - name: Exit if no changes
+        if: steps.changes.outputs.nginx != 'true'
+        run: |
+          echo "No changes in nginx directory, skipping build"
+          exit 0
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3

@@ -1,9 +1,11 @@
-name: Publish MySql 8 image to Docker Hub
+name: Publish MySQL image to Docker Hub
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'mysql/**'
 
 permissions:
   contents: write
@@ -15,13 +17,29 @@ env:
   DOCKERHUB_ID: ${{ secrets.DOCKERHUB_ID }}
 
 jobs:
-  push_to_registry:
+  build_and_push:
     if: github.event_name != 'pull_request'
-    name: Build and push mysql image
+    name: Build and push MySQL image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for changes in mysql directory
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            mysql:
+              - 'mysql/**'
+
+      - name: Exit if no changes
+        if: steps.changes.outputs.mysql != 'true'
+        run: |
+          echo "No changes in mysql directory, skipping build"
+          exit 0
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -62,7 +80,7 @@ jobs:
             patch=0
             minor=$((minor+1))
           fi
-          if [ "$minor" -ge 10]; then
+          if [ "$minor" -ge 10 ]; then
             minor=0
             major=$((major+1))
           fi
@@ -87,7 +105,7 @@ jobs:
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=raw,value=${{ steps.inc_version.outputs.new_version }}
 
-      - name: Build and push mysql image
+      - name: Build and push MySQL image
         id: build-and-push
         uses: docker/build-push-action@v6
         with:

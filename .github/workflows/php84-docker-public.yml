@@ -1,4 +1,4 @@
-name: Build and Push PHP 8.4 Image to Docker Hub
+name: Publish PHP 8.4 image to Docker Hub
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'php84/**'
+      - '.github/workflows/php84-docker-public.yml'
 
 permissions:
   contents: write
@@ -36,9 +37,9 @@ jobs:
               - 'php84/**'
 
       - name: Exit if no changes
-        if: steps.changes.outputs.php84 != 'true'
+        if: steps.changes.outputs.php84 != 'true' && !contains(github.event.head_commit.message, '[php84]')
         run: |
-          echo "No changes in php84 directory, skipping build"
+          echo "No changes in php84 directory and no [php84] in commit message, skipping build"
           exit 0
 
       - name: Setup Docker Buildx
