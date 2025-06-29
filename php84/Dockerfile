@@ -37,8 +37,20 @@ RUN install-php-extensions soap pcntl bcmath gd exif sockets zip xdebug redis in
 # Install WP-CLI
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && \
-    mv wp-cli.phar /usr/local/bin/wp
+    mv wp-cli.phar /usr/local/bin/wp && \
+    wp --allow-root cli version
+
+# Create necessary directories and set permissions
+RUN mkdir -p /home/csdev/.wp-cli/cache && \
+    chown -R csdev:csdev /home/csdev/.wp-cli && \
+    chmod 777 /home/csdev/.wp-cli/cache
+
+# Add WP-CLI bash completion
+RUN curl -o /etc/bash_completion.d/wp-completion.bash https://raw.githubusercontent.com/wp-cli/wp-cli/main/utils/wp-completion.bash
 
 USER csdev
+
+# Set WP-CLI configuration
+ENV WP_CLI_CACHE_DIR=/home/csdev/.wp-cli/cache
 
 CMD ["php-fpm"]
