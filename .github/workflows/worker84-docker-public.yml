@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - 'worker84/**'
-      - '.github/workflows/worker84-docker-public.yml'
 
 permissions:
   contents: write

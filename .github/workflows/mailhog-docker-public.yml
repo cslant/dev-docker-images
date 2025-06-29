@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - 'mailhog/**'
-      - '.github/workflows/mailhog-docker-public.yml'
 
 permissions:
   contents: write
