@@ -1,4 +1,4 @@
-FROM mysql:9
+FROM mysql:9.3.0
 
 LABEL maintainer="Tan Nguyen <tannp@cslant.com>"
 LABEL authors="cslant"
