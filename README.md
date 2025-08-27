@@ -20,6 +20,7 @@ In this docker repository, we have built the following images:
 - [cslant/dev-mysql](https://hub.docker.com/r/cslant/dev-mysql)
 - [cslant/dev-mysql9](https://hub.docker.com/r/cslant/dev-mysql9)
 - [cslant/dev-node22](https://hub.docker.com/r/cslant/dev-node22)
+- [cslant/dev-node24](https://hub.docker.com/r/cslant/dev-node24)
 - [cslant/dev-nginx](https://hub.docker.com/r/cslant/dev-nginx)
 - [cslant/dev-postgres](https://hub.docker.com/r/cslant/dev-postgres)
 - [cslant/dev-mailhog](https://hub.docker.com/r/cslant/dev-mailhog)
