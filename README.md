@@ -16,6 +16,8 @@ In this docker repository, we have built the following images:
 - [cslant/dev-worker83](https://hub.docker.com/r/cslant/dev-worker83)
 - [cslant/dev-php84](https://hub.docker.com/r/cslant/dev-php84)
 - [cslant/dev-worker84](https://hub.docker.com/r/cslant/dev-worker84)
+- [cslant/dev-php85](https://hub.docker.com/r/cslant/dev-php85)
+- [cslant/dev-worker85](https://hub.docker.com/r/cslant/dev-worker85)
 - [cslant/dev-mysql57](https://hub.docker.com/r/cslant/dev-mysql57)
 - [cslant/dev-mysql](https://hub.docker.com/r/cslant/dev-mysql)
 - [cslant/dev-mysql9](https://hub.docker.com/r/cslant/dev-mysql9)
