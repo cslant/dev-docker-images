@@ -21,7 +21,7 @@ ADD cslant.php.ini "$PHP_INI_DIR/conf.d/blog.ini"
 WORKDIR /var/dev
 
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-RUN install-php-extensions soap pcntl bcmath gd exif sockets zip xdebug redis intl pdo_pgsql pgsql pdo_mysql mysqli
+RUN install-php-extensions soap pcntl bcmath gd exif sockets zip redis intl pdo_pgsql pgsql pdo_mysql mysqli
 
 ## Install supervisord
 RUN apk add --no-cache supervisor
