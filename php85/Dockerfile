@@ -3,7 +3,7 @@ ARG PHP_VERSION=8.5
 FROM php:${PHP_VERSION}-fpm-alpine
 LABEL maintainer="Tan Nguyen <tannp@cslant.com>"
 LABEL authors="cslant"
-LABEL description="PHP image for CSlant development"
+LABEL description="PHP 8.5 image for CSlant development"
 
 ## Make php ini
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
