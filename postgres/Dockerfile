@@ -1,4 +1,4 @@
-FROM postgres:16.0
+FROM postgres:17-alpine
 LABEL maintainer="Tan Nguyen <tannp@cslant.com>"
 LABEL authors="cslant"
 LABEL description="Postgres image for CSlant development"
