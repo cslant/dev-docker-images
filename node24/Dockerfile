@@ -6,7 +6,6 @@ LABEL description="Node.js 24 image for CSlant development"
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 
-## Set Environment
 ENV USER_ID=$USER_ID
 ENV GROUP_ID=$GROUP_ID
 
