@@ -1,0 +1,94 @@
+name: Publish Node.js 22 STG image to Docker Hub
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'node22/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  IMAGE_NAME: dev-node22
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+  DOCKERHUB_ID: ${{ secrets.DOCKERHUB_ID }}
+  STG_USER_ID: ${{ secrets.STG_USER_ID }}
+  STG_GROUP_ID: ${{ secrets.STG_GROUP_ID }}
+
+jobs:
+  build_and_push_stg:
+    if: github.event_name != 'pull_request'
+    name: Build and push Node.js 22 STG image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log into Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: https://index.docker.io/v1/
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ env.DOCKERHUB_PASSWORD }}
+
+      - name: Get latest version tag
+        id: get_version
+        run: |
+          git fetch --tags
+          latest_tag=$(git tag -l | grep -E '^vnode22-stg' | sort -V | tail -n 1)
+          echo "Latest tag: $latest_tag"
+          echo "version=$latest_tag" >> $GITHUB_OUTPUT
+
+      - name: Increment version number
+        id: inc_version
+        run: |
+          version=${{ steps.get_version.outputs.version }}
+          version=${version#"vnode22-stg-"}
+          if [ -z "$version" ]; then
+            major=0
+            minor=0
+            patch=0
+          else
+            IFS='.' read -r -a parts <<< "$version"
+            major=${parts[0]:-0}
+            minor=${parts[1]:-0}
+            patch=${parts[2]:-0}
+          fi
+          patch=$((patch+1))
+          if [ "$patch" -ge 100 ]; then
+            patch=0
+            minor=$((minor+1))
+          fi
+          if [ "$minor" -ge 10 ]; then
+            minor=0
+            major=$((major+1))
+          fi
+          new_version="vnode22-stg-$major.$minor.$patch"
+          echo "New version: $new_version"
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
+
+      - name: Set new version tag
+        run: |
+          git tag ${{ steps.inc_version.outputs.new_version }}
+          git push origin ${{ steps.inc_version.outputs.new_version }}
+
+      - name: Build and push Node.js 22 STG image
+        uses: docker/build-push-action@v6
+        with:
+          context: node22
+          push: true
+          tags: |
+            ${{ env.DOCKERHUB_ID }}/${{ env.IMAGE_NAME }}:stg
+            ${{ env.DOCKERHUB_ID }}/${{ env.IMAGE_NAME }}:${{ steps.inc_version.outputs.new_version }}
+          build-args: |
+            USER_ID=${{ env.STG_USER_ID }}
+            GROUP_ID=${{ env.STG_GROUP_ID }}
