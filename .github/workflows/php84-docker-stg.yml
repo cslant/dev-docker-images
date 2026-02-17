@@ -12,7 +12,7 @@ permissions:
   contents: write
 
 env:
-  IMAGE_NAME: dev-php84-stg
+  IMAGE_NAME: dev-php84
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
   DOCKERHUB_ID: ${{ secrets.DOCKERHUB_ID }}

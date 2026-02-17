@@ -1,4 +1,4 @@
-name: Publish Node.js 22 STG image to Docker Hub
+name: Publish Node.js 22 image to Docker Hub
 
 on:
   push:
@@ -6,13 +6,14 @@ on:
       - main
     paths:
       - 'node22/**'
+      - '.github/workflows/node22-docker-stg.yml'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 env:
-  IMAGE_NAME: dev-node22-stg
+  IMAGE_NAME: dev-node22
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
   DOCKERHUB_ID: ${{ secrets.DOCKERHUB_ID }}
@@ -22,13 +23,27 @@ env:
 jobs:
   build_and_push_stg:
     if: github.event_name != 'pull_request'
-    name: Build and push Node.js 22 STG image
+    name: Build and push Node.js 22 image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
+
+      - name: Check for changes in node22 directory
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            node22:
+              - 'node22/**'
+
+      - name: Exit if no changes
+        if: steps.changes.outputs.node22 != 'true' # use the output from paths-filter
+        run: |
+          echo "No changes in node22 directory, skipping build"
+          exit 0
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -44,7 +59,7 @@ jobs:
         id: get_version
         run: |
           git fetch --tags
-          latest_tag=$(git tag -l | grep -E '^vnode22-stg' | sort -V | tail -n 1)
+          latest_tag=$(git tag -l | grep -E '^vnode22' | sort -V | tail -n 1)
           echo "Latest tag: $latest_tag"
           echo "version=$latest_tag" >> $GITHUB_OUTPUT
 
@@ -52,7 +67,7 @@ jobs:
         id: inc_version
         run: |
           version=${{ steps.get_version.outputs.version }}
-          version=${version#"vnode22-stg-"}
+          version=${version#"vnode22-stg"} # remove prefix
           if [ -z "$version" ]; then
             major=0
             minor=0
@@ -72,7 +87,7 @@ jobs:
             minor=0
             major=$((major+1))
           fi
-          new_version="vnode22-stg-$major.$minor.$patch"
+          new_version="vnode22-stg${major}.${minor}.${patch}"
           echo "New version: $new_version"
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
 
@@ -81,7 +96,20 @@ jobs:
           git tag ${{ steps.inc_version.outputs.new_version }}
           git push origin ${{ steps.inc_version.outputs.new_version }}
 
-      - name: Build and push Node.js 22 STG image
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DOCKERHUB_ID }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=tag
+            type=semver,pattern={{version}}
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            type=raw,value=${{ steps.inc_version.outputs.new_version }}
+
+      - name: Build and push Node.js 22 image
+        id: build-and-push
         uses: docker/build-push-action@v6
         with:
           context: node22
@@ -89,6 +117,7 @@ jobs:
           tags: |
             ${{ env.DOCKERHUB_ID }}/${{ env.IMAGE_NAME }}:stg
             ${{ env.DOCKERHUB_ID }}/${{ env.IMAGE_NAME }}:${{ steps.inc_version.outputs.new_version }}
+          labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             USER_ID=${{ env.STG_USER_ID }}
             GROUP_ID=${{ env.STG_GROUP_ID }}

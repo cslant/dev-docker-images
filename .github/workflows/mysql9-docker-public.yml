@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "mysql9/**"
+      - ".github/workflows/mysql9-docker-public.yml"
 
 permissions:
   contents: write

@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'nginx/**'
+      - '.github/workflows/nginx-docker-public.yml'
 
 permissions:
   contents: write

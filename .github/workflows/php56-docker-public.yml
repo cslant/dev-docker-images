@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'php56/**'
+      - '.github/workflows/php56-docker-public.yml'
 
 permissions:
   contents: write

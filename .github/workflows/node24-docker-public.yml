@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'node24/**'
+      - '.github/workflows/node24-docker-public.yml'
 
 permissions:
   contents: write

@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'php84/**'
+      - '.github/workflows/php84-docker-public.yml'
 
 permissions:
   contents: write

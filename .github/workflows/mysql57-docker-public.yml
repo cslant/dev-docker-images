@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'mysql57/**'
+      - '.github/workflows/mysql57-docker-public.yml'
 
 permissions:
   contents: write

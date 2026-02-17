@@ -6,13 +6,14 @@ on:
       - main
     paths:
       - 'node24/**'
+      - '.github/workflows/node24-docker-stg.yml'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 env:
-  IMAGE_NAME: dev-node24-stg
+  IMAGE_NAME: dev-node24
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
   DOCKERHUB_ID: ${{ secrets.DOCKERHUB_ID }}
