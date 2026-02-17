@@ -8,8 +8,9 @@ LABEL description="PHP Worker image for CSlant development"
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 ARG USER_ID=1000
-ENV USER_ID ${USER_ID}
 ARG GROUP_ID=1000
+
+ENV USER_ID ${USER_ID}
 ENV GROUP_ID ${GROUP_ID}
 
 RUN set -eu; \

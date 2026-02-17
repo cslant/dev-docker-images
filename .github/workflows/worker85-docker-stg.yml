@@ -1,18 +1,18 @@
-name: Publish Node.js 22 STG image to Docker Hub
+name: Publish Worker 85 STG image to Docker Hub
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'node22/**'
+      - 'worker85/**'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 env:
-  IMAGE_NAME: dev-node22-stg
+  IMAGE_NAME: dev-worker85-stg
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
   DOCKERHUB_ID: ${{ secrets.DOCKERHUB_ID }}
@@ -22,7 +22,7 @@ env:
 jobs:
   build_and_push_stg:
     if: github.event_name != 'pull_request'
-    name: Build and push Node.js 22 STG image
+    name: Build and push Worker 85 STG image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -44,7 +44,7 @@ jobs:
         id: get_version
         run: |
           git fetch --tags
-          latest_tag=$(git tag -l | grep -E '^vnode22-stg' | sort -V | tail -n 1)
+          latest_tag=$(git tag -l | grep -E '^vworker85-stg' | sort -V | tail -n 1)
           echo "Latest tag: $latest_tag"
           echo "version=$latest_tag" >> $GITHUB_OUTPUT
 
@@ -52,7 +52,7 @@ jobs:
         id: inc_version
         run: |
           version=${{ steps.get_version.outputs.version }}
-          version=${version#"vnode22-stg-"}
+          version=${version#"vworker85-stg-"}
           if [ -z "$version" ]; then
             major=0
             minor=0
@@ -72,7 +72,7 @@ jobs:
             minor=0
             major=$((major+1))
           fi
-          new_version="vnode22-stg-$major.$minor.$patch"
+          new_version="vworker85-stg-$major.$minor.$patch"
           echo "New version: $new_version"
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
 
@@ -81,14 +81,15 @@ jobs:
           git tag ${{ steps.inc_version.outputs.new_version }}
           git push origin ${{ steps.inc_version.outputs.new_version }}
 
-      - name: Build and push Node.js 22 STG image
+      - name: Build and push Worker 85 STG image
         uses: docker/build-push-action@v6
         with:
-          context: node22
+          context: worker85
           push: true
           tags: |
             ${{ env.DOCKERHUB_ID }}/${{ env.IMAGE_NAME }}:stg
             ${{ env.DOCKERHUB_ID }}/${{ env.IMAGE_NAME }}:${{ steps.inc_version.outputs.new_version }}
           build-args: |
+            PHP_VERSION=8.5
             USER_ID=${{ env.STG_USER_ID }}
             GROUP_ID=${{ env.STG_GROUP_ID }}
