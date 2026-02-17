@@ -28,6 +28,9 @@ USER csdev
 RUN echo Y | yarn -v
 RUN corepack prepare yarn@4.9.0 --activate
 
-WORKDIR /var/dev
+## Install Sass
+RUN yarn global add sass
+
+WORKDIR /var/devqq
 
 CMD ["ash", "-l"]
