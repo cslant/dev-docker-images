@@ -28,9 +28,9 @@ USER csdev
 RUN echo Y | yarn -v
 RUN corepack prepare yarn@4.9.0 --activate
 
-## Install Sass
-RUN yarn global add sass
+## Install Sass (use npm since Yarn 4 doesn't support global add)
+RUN npm install -g sass
 
-WORKDIR /var/devqq
+WORKDIR /var/dev
 
 CMD ["ash", "-l"]
