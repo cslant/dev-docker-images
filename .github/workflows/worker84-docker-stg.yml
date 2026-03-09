@@ -82,7 +82,7 @@ jobs:
           git push origin ${{ steps.inc_version.outputs.new_version }}
 
       - name: Build and push Worker 84 STG image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: worker84
           push: true
