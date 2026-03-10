@@ -108,7 +108,7 @@ jobs:
 
       - name: Build and push Node.js 22 image
         id: build-and-push
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: node22
           push: true
