@@ -30,7 +30,7 @@ jobs:
 
       - name: Check for changes in mysql57 directory
         id: changes
-        uses: dorny/paths-filter@v3
+        uses: dorny/paths-filter@v4
         with:
           filters: |
             mysql57:
