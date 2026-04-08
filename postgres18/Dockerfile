@@ -1,7 +1,7 @@
 FROM postgres:18-alpine
 LABEL maintainer="Tan Nguyen <tannp@cslant.com>"
 LABEL authors="cslant"
-LABEL description="Postgres image for CSlant development"
+LABEL description="Postgres18 image for CSlant development"
 
 #####################################
 # Set Timezone
