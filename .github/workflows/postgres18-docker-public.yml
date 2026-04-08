@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'postgres18/**'
+      - '.github/workflows/postgres18-docker-public.yml.yml'
 
 permissions:
   contents: write
