@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'postgres/**'
+      - 'postgres18/**'
 
 permissions:
   contents: write
