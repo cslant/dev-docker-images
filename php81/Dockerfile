@@ -5,10 +5,8 @@ LABEL maintainer="Tan Nguyen <tannp@cslant.com>"
 LABEL authors="cslant"
 LABEL description="PHP image for CSlant development"
 
-## Make php ini
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
-## Install composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php \
     && mv composer.phar /usr/local/bin/composer
